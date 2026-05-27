@@ -1,0 +1,233 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+#root {
+  padding: 30px 0;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.app-header p {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Note Form */
+.note-form {
+  display: flex;
+  gap: 12px;
+  margin: 0 auto 40px;
+  max-width: 600px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.note-form input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.note-form input:focus {
+  outline: none;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.note-form input::placeholder {
+  color: #999;
+}
+
+.note-form button {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.note-form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.note-form button:active {
+  transform: translateY(-1px);
+}
+
+/* Notes Container */
+.notes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Note */
+.note {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+.note:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.note h2 {
+  font-size: 1.4rem;
+  color: #667eea;
+  margin-bottom: 12px;
+  word-break: break-word;
+  font-weight: 700;
+}
+
+.note p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: auto;
+  min-height: 60px;
+  word-break: break-word;
+  flex-grow: 1;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: auto;
+  min-height: 60px;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Note Buttons Container */
+.note-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.note button {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteBtn {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background-color: #ee5a52;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.deleteBtn:active {
+  transform: translateY(0);
+}
+
+.note button:not(.deleteBtn) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.note button:not(.deleteBtn):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.note button:not(.deleteBtn):active {
+  transform: translateY(0);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  color: white;
+  padding: 60px 20px;
+  font-size: 1.1rem;
+}
+
+.note-form button {
+  padding-inline: 15px;
+  padding-block: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.note-form button:active{
+  scale: 0.97;
+}
