@@ -12,7 +12,7 @@ const App = () => {
 
 
   function fetchNotes() {
-    axios.get("https://cohort-backend-1i95.onrender.com//api/notes")
+    axios.get("https://cohort-backend-1i95.onrender.com/api/notes")
       .then((res) => {
         setNotes(res.data.notes)
       })
@@ -30,7 +30,7 @@ const App = () => {
     const { title, description } = e.target.elements
     // console.log(title.value, description.value)
 
-    axios.post("https://cohort-backend-1i95.onrender.com//api/notes", {
+    axios.post("https://cohort-backend-1i95.onrender.com/api/notes", {
       title: title.value,
       description: description.value
     })
@@ -41,7 +41,7 @@ const App = () => {
   }
 
   function handleDeleteNote(noteId) {
-    axios.delete('https://cohort-backend-1i95.onrender.com//api/notes/' + noteId)
+    axios.delete('https://cohort-backend-1i95.onrender.com/api/notes/' + noteId)
       .then(() => {
         fetchNotes();
       })
@@ -50,7 +50,7 @@ const App = () => {
   function handleUpdateNote(noteId) {
     if (editingNoteId === noteId) {
       // Save the update
-      axios.patch("https://cohort-backend-1i95.onrender.com//api/notes/" + noteId, {
+      axios.patch("https://cohort-backend-1i95.onrender.com/api/notes/" + noteId, {
         description: newDescription
       })
         .then(() => {
