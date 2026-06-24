@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-
 const App = () => {
 
   const [notes, setNotes] = useState([])
   const [editingNoteId, setEditingNoteId] = useState(null)
-  const [newDescription, setNewDescription] = useState('')
   const [newTitle, setNewTitle] = useState('')
+  const [newDescription, setNewDescription] = useState('')
 
 
   function fetchNotes() {
-    axios.get("https://cohort-backend-1i95.onrender.com/api/notes")
+    axios.get("http://localhost:3000/api/notes/")
       .then((res) => {
         setNotes(res.data.notes)
       })
@@ -25,12 +24,11 @@ const App = () => {
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log('submit')
 
     const { title, description } = e.target.elements
     // console.log(title.value, description.value)
 
-    axios.post("https://cohort-backend-1i95.onrender.com/api/notes", {
+    axios.post("http://localhost:3000/api/notes/", {
       title: title.value,
       description: description.value
     })
@@ -41,23 +39,29 @@ const App = () => {
   }
 
   function handleDeleteNote(noteId) {
-    axios.delete('https://cohort-backend-1i95.onrender.com/api/notes/' + noteId)
+    axios.delete('http://localhost:3000/api/notes/' + noteId)
       .then(() => {
         fetchNotes();
       })
   }
 
-  function handleUpdateNote(noteId) {
+  async function handleUpdateNote(noteId) {
     if (editingNoteId === noteId) {
       // Save the update
-      axios.patch("https://cohort-backend-1i95.onrender.com/api/notes/" + noteId, {
-        description: newDescription
-      })
-        .then(() => {
-          setEditingNoteId(null)
-          setNewDescription('')
-          fetchNotes()
+      try {
+        
+        await axios.patch(`http://localhost:3000/api/notes/${noteId}`, {
+          title: newTitle,
+          description: newDescription
         })
+
+        setEditingNoteId(null)
+        setNewDescription('')
+        setNewTitle('')
+        fetchNotes()
+      } catch (error) {
+        console.error('Failed to update note:', error)
+      }
     } else {
       // Enter edit mode
       const note = notes.find(n => n._id === noteId)
@@ -87,8 +91,8 @@ const App = () => {
             No notes yet. Create your first note!
           </div>
         ) : (
-          notes.map((note, idx) => {
-            return <div key={idx} className='note'>
+          notes.map((note) => {
+            return <div key={note._id} className='note'>
 
               {editingNoteId === note._id ? (
                 <input
@@ -113,12 +117,12 @@ const App = () => {
               )}
 
               <div className='note-buttons'>
-                <button className='deleteBtn'
+                <button type="button" className='deleteBtn'
                   onClick={() => handleDeleteNote(note._id)}>
                   🗑️ Delete
                 </button>
 
-                <button onClick={() => handleUpdateNote(note._id)}>
+                <button type="button" onClick={() => handleUpdateNote(note._id)}>
                   {editingNoteId === note._id ? '💾 Save' : '✏️ Update'}
                 </button>
               </div>
