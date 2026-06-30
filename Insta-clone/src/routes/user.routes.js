@@ -8,5 +8,6 @@ const userControllers = require('../controllers/user.controller');
 
 userRouter.post('/follow/:username', identifyUser,userControllers.followUserController)
 userRouter.post('/unfollow/:username', identifyUser, userControllers.unfollowUserController)
+userRouter.patch('/follow/:Id', userControllers.followStatusController)
 
 module.exports = userRouter;

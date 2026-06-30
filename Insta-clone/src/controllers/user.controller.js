@@ -37,7 +37,8 @@ async function followUserController(req, res) {
 
     const followRecord = await followModel.create({
         follower: followerUsername,
-        followee: followeeUsername
+        followee: followeeUsername,
+
     })
 
     res.status(201).json({
@@ -57,7 +58,7 @@ async function unfollowUserController(req, res) {
         followee: followeeUsername
     })
 
-    if(!isUserFollowing){
+    if (!isUserFollowing) {
         return res.status(200).json({
             message: `You are not following ${followeeUsername}`,
         })
@@ -70,7 +71,24 @@ async function unfollowUserController(req, res) {
     })
 }
 
+
+
+async function followStatusController(req, res) {
+
+    const followDocId = req.params.Id
+
+    await followModel.findByIdAndUpdate(followDocId,{ status: "rejected" })
+
+    const updatedStatus = await followModel.findById(followDocId)
+
+    res.status(200).json({
+        message: `Status Updated`,
+        follow: updatedStatus
+    })
+}
+
 module.exports = {
     followUserController,
-    unfollowUserController
+    unfollowUserController,
+    followStatusController
 }
