@@ -72,19 +72,32 @@ async function unfollowUserController(req, res) {
 }
 
 
-
 async function followStatusController(req, res) {
 
-    const followDocId = req.params.Id
+    const followDocument = req.params.id
 
-    await followModel.findByIdAndUpdate(followDocId,{ status: "rejected" })
+    const { status } = req.body;
 
-    const updatedStatus = await followModel.findById(followDocId)
+    const updatedStatus = await followModel.findByIdAndUpdate(
+        followDocument,
+        { status },
+        {
+            new: true,   // return the updated document
+            runValidators: true  // ensure the status is valid, enum validation is applied
+        }
+    );
+
+    if(!updatedStatus){
+        return res.status(404).json({
+            message: "Follow request not found"
+        });
+    }
 
     res.status(200).json({
-        message: `Status Updated`,
+        message: "Status Updated",
         follow: updatedStatus
-    })
+    });
+
 }
 
 module.exports = {
