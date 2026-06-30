@@ -1,0 +1,12 @@
+const express = require('express');
+const userRouter = express.Router();
+
+const identifyUser = require('../middlewares/post.middleware');
+const userControllers = require('../controllers/user.controller');
+
+// /api/users/follow/:username
+
+userRouter.post('/follow/:username', identifyUser,userControllers.followUserController)
+userRouter.post('/unfollow/:username', identifyUser, userControllers.unfollowUserController)
+
+module.exports = userRouter;
