@@ -71,7 +71,6 @@ async function unfollowUserController(req, res) {
     })
 }
 
-
 async function followStatusController(req, res) {
 
     const followDocument = req.params.id

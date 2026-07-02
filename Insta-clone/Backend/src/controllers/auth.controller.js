@@ -61,7 +61,6 @@ async function loginController(req, res) {
         $or: [
             {
                 username: username,
-
             },
             {
                 email: email
