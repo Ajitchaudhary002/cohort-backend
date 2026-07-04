@@ -107,10 +107,27 @@ async function likePostController(req, res) {
     })
 }
 
+async function getFeedController(req, res) {
+
+    // populate the user field in the post model to get the user details along with the post details
+    // select false for the password field in the user model to exclude it from the response
+    // .select("+password") in login controller
+
+    const posts = await postModel.find().populate('user')
+
+    console.log(posts)
+
+    res.status(200).json({
+        message: 'posts fetched successfully',
+        posts
+    })
+}
+
 
 module.exports = {
     createPostController,
     getPostController,
     getPostDetailsController,
-    likePostController
+    likePostController,
+    getFeedController
 }  
