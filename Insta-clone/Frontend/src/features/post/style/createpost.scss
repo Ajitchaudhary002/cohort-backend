@@ -1,0 +1,16 @@
+.create-post-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .post-image-label {
+        width: 100%;
+        background-color: rgb(231, 231, 231);
+        color: rgb(40, 40, 40);
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        border-radius: 1rem;
+        cursor: pointer;
+
+    }
+}
