@@ -51,6 +51,7 @@
                 display: flex;
                 justify-content: space-between;
 
+
                 .left {
                     display: flex;
                     gap: 0.75rem;
@@ -61,6 +62,7 @@
                     width: 1rem;
                     aspect-ratio: 1/1;
                     color: white;
+                    cursor: pointer;
                 }
 
                 button {
@@ -73,6 +75,11 @@
                     fill: red;
                     stroke: red;
 
+                }
+
+                .save {
+                    fill: red;
+                    stroke: red;
                 }
             }
 

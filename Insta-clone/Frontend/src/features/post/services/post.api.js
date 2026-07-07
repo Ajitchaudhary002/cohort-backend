@@ -35,3 +35,15 @@ export const unLikePost = async (postId) => {
     const response = await api.post('/api/posts/unlike/' + postId)
     return response.data
 }
+
+export const savePost = async (postId) => {
+    const response = await api.post('/api/posts/savePost/' + postId)
+    console.log(response.data)
+    return response.data
+
+}
+export const unSavePost = async (postId) => {
+    const response = await api.post('/api/posts/unSavePost/' + postId)
+    console.log(response.data)
+    return response.data
+}

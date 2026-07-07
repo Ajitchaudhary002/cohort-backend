@@ -1,5 +1,6 @@
 const postModel = require('../models/post.model');
 const likeModel = require('../models/like.model')
+const savePostModel = require('../models/savePost.model')
 
 const ImageKit = require('@imagekit/nodejs');
 const { toFile } = require('@imagekit/nodejs');
@@ -85,12 +86,12 @@ async function likePostController(req, res) {
         })
     }
 
-    const isPostalreadyLiked = await likeModel.findOne({
+    const isPostAlreadyLiked = await likeModel.findOne({
         post: postId,
         user: username
     })
 
-    if (isPostalreadyLiked) {
+    if (isPostAlreadyLiked) {
         return res.status(200).json({
             message: "Post already liked"
         })
@@ -125,7 +126,7 @@ async function unLikePostController(req, res) {
     await likeModel.findByIdAndDelete(isLiked._id)
 
     res.status(200).json({
-        message: "Post un liked successfully"
+        message: "post un liked successfully"
     })
 }
 
@@ -142,9 +143,16 @@ async function getFeedController(req, res) {
             const isLiked = await likeModel.findOne({
                 user: user.username,
                 post: post._id
+
+            })
+
+            const isSaved = await savePostModel.findOne({
+                post: post._id,
+                user: user.username,
             })
 
             post.isLiked = Boolean(isLiked)
+            post.isSaved = Boolean(isSaved)
 
             return post
         }))
@@ -155,6 +163,69 @@ async function getFeedController(req, res) {
     })
 }
 
+async function savePostController(req, res) {
+    const username = req.user.username
+    const postId = req.params.postId
+
+    const post = await postModel.findById(postId)
+
+    if (!post) {
+        return res.status(404).json({
+            message: 'post not found'
+        })
+    }
+
+    const isPostAlreadySaved = await savePostModel.findOne({
+        post: postId,
+        user: username
+    })
+
+    if (isPostAlreadySaved) {
+        return res.status(200).json({
+            message: 'post already saved'
+        })
+    }
+
+    const save = await savePostModel.create({
+        post: postId,
+        user: username
+    })
+
+    res.status(201).json({
+        message: 'Post saved successfully',
+        save
+    })
+}
+
+async function unSavePostController(req, res) {
+    postId = req.params.postId
+    username = req.user.username
+
+    const post = await postModel.findById(postId)
+
+    if (!post) {
+        return res.status(404).json({
+            message: 'post not found'
+        })
+    }
+
+    const isSaved = await savePostModel.findOne({
+        post: postId,
+        user: username
+    })
+
+    if (!isSaved) {
+        return res.status(200).json({
+            message: 'post is not saved yet'
+        })
+    }
+
+    await savePostModel.findByIdAndDelete(isSaved._id);
+
+    res.status(201).json({
+        message: 'post unsaved successfully'
+    })
+}
 
 module.exports = {
     createPostController,
@@ -163,5 +234,7 @@ module.exports = {
     likePostController,
     unLikePostController,
     getFeedController,
+    savePostController,
+    unSavePostController
 
 }  
