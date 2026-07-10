@@ -12,6 +12,7 @@ export const useAuth = () => {
         const response = await login(username, password)
 
         setUser(response.user)
+        console.log(response)
 
         setLoading(false)
     }

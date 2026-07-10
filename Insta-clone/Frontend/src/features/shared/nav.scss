@@ -1,8 +1,13 @@
 .nav {
     display: flex;
     width: 100%;
-    justify-content: space-around;
+    justify-content: space-evenly;
     padding-inline: 1rem;
-    padding-block: 0.5rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid rgb(85, 83, 83);
+
+    h1{
+        cursor: pointer;
+    }
 
 }

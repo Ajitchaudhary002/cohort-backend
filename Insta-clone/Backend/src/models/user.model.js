@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         unique: [true, 'Email already exists'],
         required: [true, 'Email is required']
     },
-    password:{  
+    password: {
         type: String,
         required: [true, 'password is required'],
         select: false
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     profileImage: {
         type: String,
         default: 'https://ik.imagekit.io/Lordaizen02/wanderercreative-blank-profile-picture-973460_1920.png'
-    }
+    },
 
 })
 

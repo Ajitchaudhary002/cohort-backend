@@ -5,14 +5,11 @@ const api = axios.create({
     withCredentials: true
 })
 
-
 export const getFeed = async () => {
     const response = await api.get('/api/posts/feed');
 
     return response.data
 }
-
-
 
 export const createPost = async (imageFile, caption) => {
 

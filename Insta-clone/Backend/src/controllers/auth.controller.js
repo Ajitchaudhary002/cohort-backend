@@ -1,7 +1,35 @@
 
 const userModel = require('../models/user.model');
+const followModel = require('../models/follow.model');
+const postModel = require('../models/post.model')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+
+async function buildUserPayload(user) {
+    const { followersCount, followingCount, postCount } = await getFollowCounts(user._id);
+
+    return {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        bio: user.bio,
+        profileImage: user.profileImage,
+        followersCount,
+        followingCount,
+        postCount
+    };
+}
+
+async function getFollowCounts(userId) {
+    const [followersCount, followingCount, postCount] = await Promise.all([
+        followModel.countDocuments({ followee: userId, status: 'accepted' }),
+        followModel.countDocuments({ follower: userId, status: 'accepted' }),
+        postModel.countDocuments({ user: userId })
+    ]);
+
+    return { followersCount, followingCount, postCount };
+}
 
 
 async function registerController(req, res) {
@@ -28,7 +56,8 @@ async function registerController(req, res) {
         email,
         bio,
         profileImage,
-        password: hash
+        password: hash,
+
     })
 
     const token = jwt.sign(
@@ -42,14 +71,11 @@ async function registerController(req, res) {
 
     res.cookie('token', token)
 
+    const userPayload = await buildUserPayload(user);
+
     res.status(201).json({
         message: "User Registered successfully",
-        user: {
-            email: user.email,
-            username: user.username,
-            bio: user.bio,
-            profileImage: user.profileImage
-        }
+        user: userPayload
     })
 
 }
@@ -94,32 +120,24 @@ async function loginController(req, res) {
 
     res.cookie("token", token)
 
+    const userPayload = await buildUserPayload(user);
+
     res.status(200)
         .json({
             message: "User Login Successfully",
-            User: {
-                username: user.username,
-                email: user.email,
-                bio: user.bio,
-                profileImage: user.profileImage,
-
-            }
+            user: userPayload
         })
 
 }
 
 async function getMeController(req, res) {
-    userId = req.user.id
+    const userId = req.user.id
 
     const user = await userModel.findById(userId)
+    const userPayload = await buildUserPayload(user);
 
     res.status(200).json({
-        user: {
-            username: user.username,
-            email: user.email,
-            bio: user.bio,
-            profileImage: user.profileImage
-        }
+        user: userPayload
     })
 }
 
