@@ -1,7 +1,7 @@
 
 import { usePost } from "../../post/hook/usePost"
 import { useAuth } from "../../auth/hooks/useAuth";
-import "../styles/userinfo.scss"
+// import "../styles/userinfo.scss"
 
 const Posts = () => {
 

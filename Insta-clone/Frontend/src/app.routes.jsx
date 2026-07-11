@@ -8,6 +8,7 @@ import FollowerList from './features/profile/components/FollowerList';
 import FollowingList from './features/profile/components/FollowingList';
 import FollowRequests from './features/profile/components/FollowRequests';
 import Posts from './features/profile/components/Posts';
+import Saved from './features/profile/components/Saved';
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: 'posts',
                 element: <Posts />
+            },
+            {
+                path: 'saved',
+                element: <Saved />
             }
         ]
     }

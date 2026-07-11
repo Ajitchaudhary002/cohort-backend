@@ -31,3 +31,8 @@ export const updateFollowStatus = async (followId, status) => {
     const response = await api.patch(`/users/follow/${followId}`, { status });
     return response.data;
 }
+
+export const getSaved = async () => {
+    const response = await api.get('/posts/saved-posts');
+    return response.data;
+}

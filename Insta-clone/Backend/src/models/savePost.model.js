@@ -7,7 +7,8 @@ const savePostSchema = new mongoose.Schema({
         required: [true, 'post is required to save the post']
     },
     user: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
         required: [true, 'user is required to save the post']
     }
 }, {

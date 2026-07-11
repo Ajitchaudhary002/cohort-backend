@@ -6,15 +6,45 @@
 
 main {
     min-height: 100vh;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, rgba(29, 29, 29, 0.9), rgba(60, 60, 60, 0.9));
 
     .form-container {
         @include flex-column(1rem);
-
         min-width: 350px;
+        background-color: rgba(40, 40, 40, 0.9);
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 9, 54, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.5s ease;
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, rgb(255, 9, 54), rgb(0, 149, 246));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            text-align: center;
+            color: #b0a8a8;
+            margin-bottom: 1rem;
+
+            a {
+                color: rgb(255, 9, 54);
+                font-weight: 600;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
 
         form {
             @include flex-column(1rem);
@@ -23,10 +53,31 @@ main {
                 border: none;
                 outline: none;
                 padding-inline: 1rem;
-                padding-block: 0.5rem;
-                border-radius: 1rem;
+                padding-block: 0.75rem;
+                border-radius: 0.5rem;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: all 0.2s ease;
+                font-size: 1rem;
+
+                &::placeholder {
+                    color: rgba(255, 255, 255, 0.5);
+                }
+
+                &:focus {
+                    background-color: rgba(255, 255, 255, 0.15);
+                    border-color: rgb(255, 9, 54);
+                    box-shadow: 0 0 8px rgba(255, 9, 54, 0.3);
+                }
             }
 
+            button {
+                padding-block: 0.75rem;
+                font-size: 1rem;
+                font-weight: 600;
+                margin-top: 0.5rem;
+            }
         }
     }
 }

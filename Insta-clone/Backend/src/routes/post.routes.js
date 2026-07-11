@@ -23,4 +23,6 @@ postRouter.get('/feed', identifyUser, postControllers.getFeedController)
 postRouter.post('/savePost/:postId', identifyUser, postControllers.savePostController)
 postRouter.post('/unSavePost/:postId', identifyUser, postControllers.unSavePostController)
 
+postRouter.get('/saved-posts', identifyUser, postControllers.getSavedPostsController)
+
 module.exports = postRouter

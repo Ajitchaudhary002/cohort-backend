@@ -55,6 +55,15 @@ const UserInfo = ({ user }) => {
                 >
                     <p className="req">Requests</p>
                 </NavLink>
+
+                <NavLink
+                    to="/profile/saved"
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                >
+                    <p className="saved">saved</p>
+                </NavLink>
             </div>
 
             <div className="lower-info">

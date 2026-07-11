@@ -137,6 +137,7 @@ async function getFeedController(req, res) {
     // .select("+password") in login controller
 
     const user = req.user
+    const userId = req.user.id
 
     const posts = await Promise.all((await postModel.find().populate("user").lean())
         .map(async (post) => {
@@ -148,7 +149,7 @@ async function getFeedController(req, res) {
 
             const isSaved = await savePostModel.findOne({
                 post: post._id,
-                user: user.username,
+                user: userId,
             })
 
             post.isLiked = Boolean(isLiked)
@@ -164,7 +165,8 @@ async function getFeedController(req, res) {
 }
 
 async function savePostController(req, res) {
-    const username = req.user.username
+    const userId = req.user.id
+    console.log(userId)
     const postId = req.params.postId
 
     const post = await postModel.findById(postId)
@@ -177,7 +179,7 @@ async function savePostController(req, res) {
 
     const isPostAlreadySaved = await savePostModel.findOne({
         post: postId,
-        user: username
+        user: userId
     })
 
     if (isPostAlreadySaved) {
@@ -188,7 +190,7 @@ async function savePostController(req, res) {
 
     const save = await savePostModel.create({
         post: postId,
-        user: username
+        user: userId
     })
 
     res.status(201).json({
@@ -199,7 +201,7 @@ async function savePostController(req, res) {
 
 async function unSavePostController(req, res) {
     postId = req.params.postId
-    username = req.user.username
+    userId = req.user.id
 
     const post = await postModel.findById(postId)
 
@@ -211,7 +213,7 @@ async function unSavePostController(req, res) {
 
     const isSaved = await savePostModel.findOne({
         post: postId,
-        user: username
+        user: userId
     })
 
     if (!isSaved) {
@@ -227,6 +229,21 @@ async function unSavePostController(req, res) {
     })
 }
 
+async function getSavedPostsController(req, res) {
+
+    const userId = req.user.id
+
+    const savedPosts = await savePostModel.find({
+        user: userId
+    }).populate('post')
+
+    res.status(200).json({
+        message: 'saved posts fetched successfully',
+        savedPosts
+    })
+
+}
+
 module.exports = {
     createPostController,
     getPostController,
@@ -235,6 +252,7 @@ module.exports = {
     unLikePostController,
     getFeedController,
     savePostController,
-    unSavePostController
+    unSavePostController,
+    getSavedPostsController
 
 }  

@@ -1,15 +1,23 @@
 import Post from '../components/Post'
 import '../style/feed.scss'
 import { usePost } from '../hook/usePost'
+import { useAuth } from '../../auth/hooks/useAuth'
 import { useEffect } from 'react'
 import Nav from '../../shared/components/Nav'
+import { useNavigate } from 'react-router'
 
 const Feed = () => {
 
     const { feed, handleGetFeed, loading, handleLikePost, handleUnLikePost, handleSavePost, handleUnSavePost } = usePost()
+    const { user } = useAuth()
+    const navigate = useNavigate()
 
     useEffect(() => {
+        if (!user) {
+            return navigate('/login')
+        }
         handleGetFeed();
+        console.log(user)
     }, [])
 
     if (loading || !feed) {

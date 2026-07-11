@@ -1,16 +1,101 @@
 .create-post-page {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding-block: 2rem;
+    animation: slideUp 0.5s ease;
+
+    .form-container {
+        background-color: rgba(40, 40, 40, 0.95);
+        border: 1px solid rgba(255, 9, 54, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgb(255, 9, 54), rgb(0, 149, 246));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    }
 
     .post-image-label {
         width: 100%;
-        background-color: rgb(231, 231, 231);
-        color: rgb(40, 40, 40);
-        padding-inline: 1rem;
-        padding-block: 0.5rem;
+        background: linear-gradient(135deg, rgba(0, 149, 246, 0.1), rgba(255, 9, 54, 0.1));
+        border: 2px dashed rgba(0, 149, 246, 0.5);
+        color: #0095f6;
+        padding-block: 2rem;
         border-radius: 1rem;
         cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
 
+        &:hover {
+            border-color: rgb(0, 149, 246);
+            background: linear-gradient(135deg, rgba(0, 149, 246, 0.2), rgba(255, 9, 54, 0.2));
+        }
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        color: white;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.2s ease;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgb(255, 9, 54);
+            box-shadow: 0 0 8px rgba(255, 9, 54, 0.3);
+        }
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    button {
+        width: 100%;
+        padding-block: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+
+    .preview {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     }
 }
