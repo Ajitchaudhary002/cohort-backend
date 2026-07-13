@@ -11,13 +11,15 @@ const Profile = () => {
     return (
         <main className="profile-page">
             <div className="profile">
-
-                <UserInfo user={user} />
-                <Outlet />
-                
                 <h1 className="home" onClick={() => navigate('/')}>
                     home
                 </h1>
+
+                <UserInfo user={user} />
+                <div className="profile-outlet">
+                    <Outlet />
+                </div>
+
             </div>
         </main>
     )

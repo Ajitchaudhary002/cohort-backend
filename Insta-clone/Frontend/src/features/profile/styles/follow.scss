@@ -10,6 +10,10 @@
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 
     h1 {
         font-size: 1.3rem;
@@ -87,6 +91,10 @@
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 
     h1 {
         font-size: 1.3rem;

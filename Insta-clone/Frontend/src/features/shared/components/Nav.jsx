@@ -6,10 +6,11 @@ const Nav = () => {
 
     return (
         <nav className='nav'>
-            <button onClick={() => navigate('/create-post')}
-                className='button primary'>
-                new post
+            <button className="button primary"
+                onClick={() => navigate('/create-post')}>
+                create
             </button>
+
             <h1>Instagram</h1>
 
             <div className="profile-nav"
