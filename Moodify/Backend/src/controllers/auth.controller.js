@@ -59,7 +59,7 @@ async function loginUser(req, res) {
             { username },
             { email }
         ]
-    })
+    }).select('+password')
 
     if (!user) {
         return res.status(400).json({
@@ -67,6 +67,7 @@ async function loginUser(req, res) {
         })
     }
 
+    console.log(user)
     const isPasswordValid = bcrypt.compare(password, user.password)
 
     if (!isPasswordValid) {
