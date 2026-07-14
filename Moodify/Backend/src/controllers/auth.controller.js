@@ -2,6 +2,7 @@ const userModel = require('../models/user.model')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const blacklistModel = require('../models/blacklist.model')
+const redis = require('../config/cache.js')
 
 
 async function registerUser(req, res) {
@@ -42,7 +43,7 @@ async function registerUser(req, res) {
     res.cookie('token', token)
 
     return res.status(201).json({
-        message: "User registered successfully",
+        message: "User registered successfully.",
         user: {
             id: user._id,
             username: user.username,
@@ -64,7 +65,7 @@ async function loginUser(req, res) {
 
     if (!user) {
         return res.status(400).json({
-            message: "Invalid credentials"
+            message: "Invalid credentials."
         })
     }
 
@@ -73,7 +74,7 @@ async function loginUser(req, res) {
 
     if (!isPasswordValid) {
         return res.status(400).json({
-            message: "Invalid credentials"
+            message: "Invalid credentials."
         })
     }
 
@@ -91,7 +92,7 @@ async function loginUser(req, res) {
     res.cookie("token", token)
 
     return res.status(200).json({
-        message: "User logged in successfully",
+        message: "User logged in successfully.",
         user: {
             id: user._id,
             username: user.username,
@@ -105,7 +106,7 @@ async function getMe(req, res) {
     const user = await userModel.findById(req.user.id)
 
     res.status(200).json({
-        message: "User fetched successfully",
+        message: "User fetched successfully.",
         user
     })
 }
@@ -115,12 +116,10 @@ async function logoutUser(req, res) {
 
     res.clearCookie("token")
 
-    await blacklistModel.create({
-        token
-    })
+    await redis.set(token, Date.now().toString(), "EX", 60 * 60)
 
     res.status(200).json({
-        message: "Logout successfully"
+        message: "Logout successfully."
     })
 }
 
