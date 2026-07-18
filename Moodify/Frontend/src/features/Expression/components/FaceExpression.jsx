@@ -27,7 +27,6 @@ export default function FaceExpression({ onClick = () => { } }) {
 
     async function handleClick() {
         const expression = detect({ landmarkerRef, videoRef, setExpression })
-        console.log(expression)
         onClick(expression)
     }
 

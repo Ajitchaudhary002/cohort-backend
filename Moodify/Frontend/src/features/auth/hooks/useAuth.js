@@ -42,7 +42,7 @@ export const useAuth = () => {
     }, [])
 
     return ({
-        user, loading, handleGetMe, handleLogin, handleRegister, handleLogout
+        user, setLoading, loading, handleGetMe, handleLogin, handleRegister, handleLogout
     })
 
 
