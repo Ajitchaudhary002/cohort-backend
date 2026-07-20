@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 
 const Logout = () => {
 
-    const { loading, handleLogout } = useAuth()
+    const { handleLogout } = useAuth()
     const navigate = useNavigate()
 
     async function Logout() {
@@ -11,14 +11,9 @@ const Logout = () => {
         navigate('/login')
     }
 
-    if (loading) {
-        return <h1>loading...
-        </h1>
-    }
-
     return (
         <div>
-            <button className="button" onClick={Logout}>Logout</button>
+            <button className="button" style={{marginLeft:'10px'}} onClick={Logout}>Logout</button>
         </div>
     )
 }

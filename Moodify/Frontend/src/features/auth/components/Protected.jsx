@@ -3,19 +3,15 @@ import { Navigate } from "react-router"
 
 const Protected = ({ children }) => {
 
-    const { setLoading, loading, user } = useAuth()
+    const { loading, user } = useAuth()
     console.log(user)
 
-    if (user == null) {
-        setLoading(false)
-    }
-
-    if (!loading && !user) {
-        return <Navigate to='/login' />
-    }
-
     if (loading) {
-        return <h1>loading...</h1>
+        return <h1 className="loading">loading...</h1>
+    }
+
+    if (!user) {
+        return <Navigate to='/login' />
     }
 
     return children

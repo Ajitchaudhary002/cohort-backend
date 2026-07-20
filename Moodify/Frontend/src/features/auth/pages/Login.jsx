@@ -7,12 +7,11 @@ import { useNavigate } from 'react-router'
 const Login = () => {
     const navigate = useNavigate()
 
-    const { loading, handleLogin } = useAuth()
-    console.log(loading)
+    const { handleLogin } = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    async function handleSubmit(e) {    
+    async function handleSubmit(e) {
         e.preventDefault()
         await handleLogin({ email, password })
         navigate('/')
