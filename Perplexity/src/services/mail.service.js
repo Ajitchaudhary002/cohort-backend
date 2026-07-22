@@ -11,11 +11,6 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-console.log(process.env.GOOGLE_CLIENT_ID)
-console.log(process.env.GOOGLE_CLIENT_SECRET)
-console.log(process.env.GOOGLE_USER)
-console.log(process.env.GOOGLE_REFRESH_TOKEN)
-
 transporter.verify()
     .then(() => { console.log('Email transporter is ready to send emails') })
     .catch((err) => { console.log('Email transporter verification failed', err) })
