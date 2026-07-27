@@ -9,7 +9,7 @@ export async function authUser(req, res, next) {
             success: false,
             err: "No token provided",
         })
-    }
+    }   
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
