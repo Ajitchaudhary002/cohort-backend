@@ -1,113 +1,108 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 import { useChat } from '../hooks/useChat'
 
+
 const Dashboard = () => {
+  const chat = useChat()
+  const [ chatInput, setChatInput ] = useState('')
+  const chats = useSelector((state) => state.chat.chats)
+  const currentChatId = useSelector((state) => state.chat.currentChatId)
 
-    const chat = useChat()
+  useEffect(() => {
+    chat.initializeSocketConnection()
+    chat.handleGetChats()
+  }, [])
 
-    const { user } = useSelector(state => state.auth)
-    console.log(user)
+  const handleSubmitMessage = (event) => {
+    event.preventDefault()
 
-    useEffect(() => {
-        chat.initializeSocketConnection()
-    }, [])
+    const trimmedMessage = chatInput.trim()
+    if (!trimmedMessage) {
+      return
+    }
 
-    return (
+    chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId })
+    setChatInput('')
+  }
 
-        <div className="h-screen bg-[#1f1f1f] text-white p-5">
-            <div className="h-full rounded-3xl border border-violet-500/40 bg-[#242424] flex gap-6 p-6">
+  const openChat = (chatId) => {
+    chat.handleOpenChat(chatId)
+  }
 
-                {/* Sidebar */}
-                <aside className="w-72 bg-[#3a3a3a] rounded-3xl flex flex-col overflow-hidden">
-                    <div className="p-6 border-b border-white/10">
-                        <h1 className="text-3xl font-semibold">Perplexity</h1>
-                    </div>
+  return (
+    <main className='min-h-screen w-full bg-[#07090f] p-3 text-white md:p-5'>
+      <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
+        <aside className='hidden h-full w-72 shrink-0 rounded-3xl border  bg-[#080b12] p-4 md:flex md:flex-col'>
+          <h1 className='mb-5 text-3xl font-semibold tracking-tight'>Perplexity</h1>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                        {[1, 2, 3, 4].map((item) => (
-                            <div
-                                key={item}
-                                className="bg-white/5 rounded-xl p-3 hover:bg-white/10 cursor-pointer transition"
-                            >
-                                <p className="text-sm text-gray-300 truncate">
-                                    Previous Chat {item}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+          <div className='space-y-2'>
+            {Object.values(chats).map((chat,index) => (
+              <button
+                onClick={()=>{openChat(chat.id)}}
+                key={index}
+                type='button'
+                className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
+              >
+                {chat.title}
+              </button>
+            ))}
+          </div>
+        </aside>
 
-                    <div className="p-4">
-                        <button className="w-full rounded-xl bg-cyan-600 hover:bg-cyan-500 py-3 font-medium transition">
-                            + New Chat
-                        </button>
-                    </div>
-                </aside>
+        <section className='relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4'>
 
-                {/* Main */}
-                <main className="flex-1 flex flex-col">
+          <div className='messages flex-1 space-y-3 overflow-y-auto pr-1 pb-30'>
+            {chats[ currentChatId ]?.messages.map((message) => (
+              <div
+                key={message.id}
+                className={`max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user'
+                    ? 'ml-auto rounded-br-none bg-white/12 text-white'
+                    : 'mr-auto border border-white/25 bg-[#0f1626] text-white/90'
+                  }`}
+              >
+                {message.role === 'user' ? (
+                  <p>{message.content}</p>
+                ) : (
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p className='mb-2 last:mb-0'>{children}</p>,
+                      ul: ({ children }) => <ul className='mb-2 list-disc pl-5'>{children}</ul>,
+                      ol: ({ children }) => <ol className='mb-2 list-decimal pl-5'>{children}</ol>,
+                      code: ({ children }) => <code className='rounded bg-white/10 px-1 py-0.5'>{children}</code>,
+                      pre: ({ children }) => <pre className='mb-2 overflow-x-auto rounded-xl bg-black/30 p-3'>{children}</pre>
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                )}
+              </div>
+            ))}
+          </div>
 
-                    {/* User Message Bubble */}
-                    <div className="flex justify-end mb-5">
-                        <div className="bg-[#4b4b4b] px-8 py-4 rounded-2xl text-lg">
-                            User Message
-                        </div>
-                    </div>
-
-                    {/* AI Response */}
-                    <div className="flex-1 bg-[#454545] rounded-[30px] p-8 overflow-y-auto shadow-inner">
-                        <div className="max-w-3xl mx-auto">
-
-                            <div className="flex gap-4">
-                                <div className="w-12 h-12 rounded-full bg-cyan-600 flex items-center justify-center font-bold">
-                                    AI
-                                </div>
-
-                                <div>
-                                    <h2 className="text-xl font-semibold mb-3">
-                                        AI Response
-                                    </h2>
-
-                                    <p className="text-gray-300 leading-8">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Quibusdam magni voluptate expedita officia reprehenderit
-                                        aliquid porro eos laboriosam dolores. Repellendus deserunt
-                                        minima, quisquam molestiae magni impedit doloremque
-                                        consequatur distinctio autem.
-                                    </p>
-
-                                    <p className="text-gray-300 mt-4 leading-8">
-                                        This area will scroll when the response becomes longer.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {/* Input */}
-                    <div className="mt-6">
-                        <div className="bg-[#4a4a4a] rounded-full flex items-center px-6 py-3">
-
-                            <input
-                                type="text"
-                                placeholder="Ask anything..."
-                                className="flex-1 bg-transparent outline-none text-lg placeholder:text-gray-300"
-                            />
-
-                            <button className="bg-cyan-600 hover:bg-cyan-500 px-8 py-3 rounded-full text-lg font-medium transition">
-                                Send
-                            </button>
-
-                        </div>
-                    </div>
-
-                </main>
-
-            </div>
-        </div>
-
-    )
+          <footer className='rounded-3xl w-full absolute bottom-2 border border-white/60 bg-[#080b12] p-4 md:p-5'>
+            <form onSubmit={handleSubmitMessage} className='flex flex-col gap-3 md:flex-row'>
+              <input
+                type='text'
+                value={chatInput}
+                onChange={(event) => setChatInput(event.target.value)}
+                placeholder='Type your message...'
+                className='w-full rounded-2xl border border-white/50 bg-transparent px-4 py-3 text-lg text-white outline-none transition placeholder:text-white/45 focus:border-white/90'
+              />
+              <button
+                type='submit'
+                disabled={!chatInput.trim()}
+                className='rounded-2xl border border-white/60 px-6 py-3 text-lg font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50'
+              >
+                Send
+              </button>
+            </form>
+          </footer>
+        </section>
+      </section>
+    </main>
+  )
 }
 
 export default Dashboard
